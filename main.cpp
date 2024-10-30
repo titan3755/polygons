@@ -73,9 +73,48 @@ int main() {
 	// ---------------------------------------- end setup OpenGL ----------------------------------------
 	// ---------------------------------------- start render initialization ----------------------------------------
 	// to complete
-	//unsigned int polygonType = 0; // 0 for triangle, 1 for square, 2 for pentagon, 3 for hexagon, 4 for heptagon, 5 for octagon
+	unsigned int polygonType = 5; // 0 for triangle, 1 for square, 2 for pentagon, 3 for hexagon, 4 for heptagon, 5 for octagon
 	// to complete
-	float vertices[] = {
+	float vertices_triangle[]{
+		// change here if polygon type changes ***
+		// positions       // colors
+		-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
+		0.5, -0.5, 0.0, 0.0, 1.0, 0.0,
+		0.0, 0.5, 0.0, 0.0, 0.0, 1.0
+	};
+	unsigned int indices_triangle[]{
+		// change here if polygon type changes ***
+		0, 1, 2
+	};
+	float vertices_square[] = {
+		// change here if polygon type changes ***
+		// positions       // colors
+		-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
+		0.5, -0.5, 0.0, 0.0, 1.0, 0.0,
+		0.5, 0.5, 0.0, 0.0, 0.0, 1.0,
+		-0.5, 0.5, 0.0, 1.0, 0.0, 0.0
+	};
+	unsigned int indices_square[] = {
+		// change here if polygon type changes ***
+		0, 1, 2,
+		0, 2, 3
+	};
+	float vertices_pentagon[] = {
+		// change here if polygon type changes ***
+		// positions       // colors
+		-0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
+		-0.2, 0.5, 0.0, 0.0, 1.0, 0.0,
+		0.2, 0.5, 0.0, 0.0, 0.0, 1.0,
+		0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
+		0.0, -0.5, 0.0, 0.0, 1.0, 0.0
+	};
+	unsigned int indices_pentagon[] = {
+		// change here if polygon type changes ***
+		0, 1, 2, // first triangle
+		0, 2, 3, // second triangle
+		0, 3, 4  // third triangle
+	};
+	float vertices_hexagon[] = {
 		// change here if polygon type changes ***
 		// positions       // colors
 		-0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
@@ -85,12 +124,52 @@ int main() {
 		0.2, -0.5, 0.0, 0.0, 1.0, 0.0,
 		-0.2, -0.5, 0.0, 0.0, 0.0, 1.0
 	};
-	unsigned int indices[] = {
+	unsigned int indices_hexagon[] = {
 		// change here if polygon type changes ***
 		0, 1, 2, // first triangle
 		0, 2, 3, // second triangle
 		0, 3, 4, // third triangle
 		0, 4, 5  // fourth triangle
+	};
+	float vertices_heptagon[] = {
+		// change here if polygon type changes ***
+		// positions       // colors
+		-0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
+		-0.3, 0.5, 0.0, 0.0, 1.0, 0.0,
+		0.3, 0.5, 0.0, 0.0, 0.0, 1.0,
+		0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
+		0.3, -0.5, 0.0, 0.0, 1.0, 0.0,
+		-0.3, -0.5, 0.0, 0.0, 0.0, 1.0,
+		-0.5, 0.0, 0.0, 1.0, 0.0, 0.0
+	};
+	unsigned int indices_heptagon[] = {
+		// change here if polygon type changes ***
+		0, 1, 2, // first triangle
+		0, 2, 3, // second triangle
+		0, 3, 4, // third triangle
+		0, 4, 5, // fourth triangle
+		0, 5, 6  // fifth triangle
+	};
+	float vertices_octagon[] = {
+		// change here if polygon type changes ***
+		// positions       // colors
+		-0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
+		-0.3, 0.5, 0.0, 0.0, 1.0, 0.0,
+		0.3, 0.5, 0.0, 0.0, 0.0, 1.0,
+		0.5, 0.0, 0.0, 1.0, 0.0, 0.0,
+		0.5, -0.5, 0.0, 0.0, 1.0, 0.0,
+		0.3, -0.7, 0.0, 0.0, 0.0, 1.0,
+		-0.3, -0.7, 0.0, 1.0, 0.0, 0.0,
+		-0.5, -0.5, 0.0, 0.0, 1.0, 0.0
+	};
+	unsigned int indices_octagon[] = {
+		// change here if polygon type changes ***
+		0, 1, 2, // first triangle
+		0, 2, 3, // second triangle
+		0, 3, 4, // third triangle
+		0, 4, 5, // fourth triangle
+		0, 5, 6, // fifth triangle
+		0, 6, 7  // sixth triangle
 	};
 	// vertex buffer object
 	unsigned int VBO;
@@ -103,10 +182,54 @@ int main() {
 	glBindVertexArray(VAO);
 	// copying our vertices array in a vertex buffer for OpenGL to use
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	switch (polygonType) {
+	case 0:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_triangle), vertices_triangle, GL_STATIC_DRAW);
+		break;
+	case 1:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_square), vertices_square, GL_STATIC_DRAW);
+		break;
+	case 2:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_pentagon), vertices_pentagon, GL_STATIC_DRAW);
+		break;
+	case 3:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_hexagon), vertices_hexagon, GL_STATIC_DRAW);
+		break;
+	case 4:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_heptagon), vertices_heptagon, GL_STATIC_DRAW);
+		break;
+	case 5:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_octagon), vertices_octagon, GL_STATIC_DRAW);
+		break;
+	default:
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_triangle), vertices_triangle, GL_STATIC_DRAW);
+		break;
+	}
 	// element buffer object
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	switch (polygonType) {
+	case 0:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_triangle), indices_triangle, GL_STATIC_DRAW);
+		break;
+	case 1:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_square), indices_square, GL_STATIC_DRAW);
+		break;
+	case 2:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_pentagon), indices_pentagon, GL_STATIC_DRAW);
+		break;
+	case 3:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_hexagon), indices_hexagon, GL_STATIC_DRAW);
+		break;
+	case 4:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_heptagon), indices_heptagon, GL_STATIC_DRAW);
+		break;
+	case 5:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_octagon), indices_octagon, GL_STATIC_DRAW);
+		break;
+	default:
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_triangle), indices_triangle, GL_STATIC_DRAW);
+		break;
+	}
 	// setting the vertex attributes pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -130,7 +253,29 @@ int main() {
 		// render the triangle
 		glBindVertexArray(VAO);
 		// change here if polygon type changes ***
-		glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+		switch (polygonType) {
+		case 0:
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+			break;
+		case 1:
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			break;
+		case 2:
+			glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+			break;
+		case 3:
+			glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+			break;
+		case 4:
+			glDrawElements(GL_TRIANGLES, 15, GL_UNSIGNED_INT, 0);
+			break;
+		case 5:
+			glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
+			break;
+		default:
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+			break;
+		}
 		glBindVertexArray(0);
 		// check and call events and swap the buffers
 		glfwSwapBuffers(window);
